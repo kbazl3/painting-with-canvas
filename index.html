@@ -20,6 +20,10 @@
     ctx.strokeStyle = '#BADA55';
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
+    ctx.lineWidth = 100;
+
+    let hue = 0;
+    let direction = true;
 
     let isDrawing = false;
     let lastX = 0;
@@ -29,7 +33,7 @@
         if (!isDrawing) { //stops the function from running if not mouse down
             return
         }
-        console.log(e)
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
         ctx.beginPath();
         //start from ^^
         ctx.moveTo(lastX, lastY);
@@ -37,7 +41,19 @@
         ctx.lineTo(e.offsetX, e.offsetY);
         ctx.stroke();
         lastX = e.offsetX;
-        lasty = e.offsetY
+        lastY = e.offsetY;
+        if (hue > 360) {
+            hue = 0;
+        }
+        hue++;
+        if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+            direction = !direction;
+        }
+        if (direction) {
+            ctx.lineWidth++;
+        } else {
+            ctx.lineWidth--;
+        }
     }
     canvas.addEventListener('mousedown', (e) => {
         isDrawing = true;
